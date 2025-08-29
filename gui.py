@@ -306,4 +306,9 @@ class TranslatorGUI:
     
     def destroy(self):
         """销毁窗口"""
-        self.root.destroy()
+        try:
+            self.root.quit()  # 停止事件循环
+            self.root.destroy()
+        except Exception as e:
+            import logging
+            logging.error(f"销毁窗口失败: {e}")
