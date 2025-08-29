@@ -1,37 +1,46 @@
 @echo off
-echo SimpleTranslator 启动脚本
+chcp 65001 >nul
+echo SimpleTranslator Launcher
 echo.
 
-REM 优先使用Python 3.13，如果没有则使用默认python
-py -3.13 --version >nul 2>&1
-if %errorlevel% == 0 (
-    set PYTHON_CMD=py -3.13
-    echo 使用 Python 3.13
-) else (
-    python --version >nul 2>&1
-    if %errorlevel% neq 0 (
-        echo 错误: 未找到Python，请先安装Python
-        pause
-        exit /b 1
-    )
-    set PYTHON_CMD=python
-    echo 使用默认 Python
-)
-
-REM 检查是否已安装依赖
-echo 检查依赖包...
-%PYTHON_CMD% -c "import openai, pystray, PIL, keyboard, pyperclip" 2>nul
+REM Check Python installation
+python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo 依赖包未完全安装，正在安装...
-    %PYTHON_CMD% -m pip install -r requirements.txt
+    echo Error: Python not found. Please install Python 3.13+
+    pause
+    exit /b 1
+)
+
+echo Using Python: 
+python --version
+
+REM Check dependencies
+echo Checking dependencies...
+python -c "import openai, tkinter, pyperclip; print('Core dependencies OK')" 2>nul
+if %errorlevel% neq 0 (
+    echo Dependencies not fully installed. Installing...
+    python -m pip install -r requirements.txt
     if %errorlevel% neq 0 (
-        echo 依赖安装失败，请检查网络连接
+        echo Failed to install dependencies. Please check network connection.
         pause
         exit /b 1
     )
 )
 
-echo 启动SimpleTranslator...
-%PYTHON_CMD% main.py
+echo.
+echo Choose startup mode:
+echo 1. Simple Mode (Recommended - Most Stable)
+echo 2. Full Mode (System tray + Hotkeys)
+echo.
+set /p choice="Choose mode (1/2, default 1): "
+
+if "%choice%"=="2" (
+    echo Starting Full Mode...
+    echo Note: If you encounter threading errors, please use Simple Mode
+    python main.py
+) else (
+    echo Starting Simple Mode...
+    python main_simple.py
+)
 
 pause

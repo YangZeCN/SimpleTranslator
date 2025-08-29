@@ -6,6 +6,8 @@ import threading
 import keyboard
 import sys
 import os
+import time
+import signal
 from gui import TranslatorGUI
 from config import Config
 
@@ -40,12 +42,20 @@ class TranslatorApp:
         
     def setup_hotkey(self):
         """设置全局热键"""
-        hotkey = self.config.get('hotkey')
+        hotkey = self.config.get('hotkey', 'ctrl+shift+t')
         try:
-            keyboard.add_hotkey(hotkey, self.show_gui)
+            # 使用更安全的热键设置方式
+            def hotkey_handler():
+                try:
+                    self.show_gui()
+                except Exception as e:
+                    print(f"热键处理失败: {e}")
+            
+            keyboard.add_hotkey(hotkey, hotkey_handler)
             print(f"热键 {hotkey} 已设置")
         except Exception as e:
             print(f"设置热键失败: {e}")
+            print("程序将继续运行，但热键功能不可用")
     
     def show_gui(self):
         """显示GUI"""
@@ -63,12 +73,34 @@ class TranslatorApp:
     
     def quit_app(self):
         """退出应用"""
+        print("正在退出应用...")
         self.running = False
+        
+        # 清理热键
+        try:
+            keyboard.unhook_all()
+        except Exception as e:
+            print(f"清理热键失败: {e}")
+        
+        # 关闭GUI
         if self.gui:
-            self.gui.destroy()
+            try:
+                self.gui.destroy()
+            except Exception as e:
+                print(f"关闭GUI失败: {e}")
+        
+        # 停止托盘图标
         if self.tray_icon:
-            self.tray_icon.stop()
-        sys.exit(0)
+            try:
+                self.tray_icon.stop()
+            except Exception as e:
+                print(f"停止托盘图标失败: {e}")
+        
+        # 强制退出
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
     
     def run(self):
         """运行应用"""
@@ -77,20 +109,19 @@ class TranslatorApp:
         # 创建系统托盘图标
         self.create_tray_icon()
         
-        # 设置热键
+        # 设置热键（在主线程中）
         self.setup_hotkey()
-        
-        # 在单独线程中运行托盘图标
-        tray_thread = threading.Thread(target=self.tray_icon.run, daemon=True)
-        tray_thread.start()
         
         print("SimpleTranslator 已启动，可通过系统托盘或热键使用")
         
         try:
-            # 保持主线程运行
-            while self.running:
-                threading.Event().wait(1)
+            # 运行托盘图标（这会阻塞主线程）
+            self.tray_icon.run()
         except KeyboardInterrupt:
+            print("接收到中断信号，正在退出...")
+            self.quit_app()
+        except Exception as e:
+            print(f"程序运行出错: {e}")
             self.quit_app()
 
 def main():

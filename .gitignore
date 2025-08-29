@@ -3,21 +3,35 @@ __pycache__/
 *.py[codz]
 *$py.class
 
-# C extensions
-*.so
+# Configuration files
+config.json
 
-# Distribution / packaging
-.Python
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build files
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
+*.egg-info/
 var/
 wheels/
 share/python-wheels/
