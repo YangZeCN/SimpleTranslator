@@ -1,10 +1,8 @@
 # SimpleTranslator - AI翻译小助手
 
 > **🤖 AI Generated Project | AI自动生成项目**  
-> 本项目**完全由AI自动生成**，基于 **GitHub Copilot + Claude 3.5 Sonnet** 模型开发！  
-> 从代码编写、功能实现、文档撰写到问题修复，展示了现代AI编程助手的强大能力。  
-> *This project is **100% AI-generated** using **GitHub Copilot + Claude 3.5 Sonnet**!*  
-> *Showcasing the power of modern AI coding assistants in full-stack development.*
+> 本项目**完全由AI自动生成**，基于 **GitHub Copilot + Claude 4 Sonnet** 模型开发！  
+> *This project is **100% AI-generated** using **GitHub Copilot + Claude 4 Sonnet**!*
 
 一个基于Python + AI API的本地翻译助手，支持多种翻译和文本处理功能。
 
@@ -218,7 +216,7 @@ MIT License
 **这是一个完全由AI自动生成的项目！**
 
 ### 开发过程
-- **编程助手**: GitHub Copilot + Claude 3.5 Sonnet
+- **编程助手**: GitHub Copilot + Claude 4 Sonnet
 - **开发模式**: 100% AI代码生成，无人工编写代码
 - **涵盖范围**: 
   - ✅ 完整的Python应用程序架构设计

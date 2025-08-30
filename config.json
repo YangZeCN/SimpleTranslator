@@ -1,7 +1,7 @@
 {
   "api_provider": "deepseek",
   "openai_api_key": "",
-  "deepseek_api_key": "sk-6a65b58d8cfe49698c337fd286264be6",
+  "deepseek_api_key": "sk-9ded415409704fe289852fb06da0d183",
   "custom_api_key": "test-key-123",
   "custom_base_url": "https://api.example.com/v1",
   "model": "gpt-3.5-turbo",
