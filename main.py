@@ -146,9 +146,15 @@ class TranslatorApp:
         except Exception as e:
             logging.error(f"关闭GUI失败: {e}")
         
-        # 等待托盘线程结束
+        # 等待托盘线程结束（避免在托盘线程中等待自己）
         if self.tray_thread and self.tray_thread.is_alive():
-            self.tray_thread.join(timeout=2)
+            # 检查是否在托盘线程中调用
+            current_thread = threading.current_thread()
+            if current_thread != self.tray_thread:
+                self.tray_thread.join(timeout=2)
+            else:
+                # 如果在托盘线程中，只是标记退出
+                logging.info("在托盘线程中退出，跳过join")
         
         logging.info("应用程序退出")
 
