@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  smx:
+    container_name: translator
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+      - 5173:5173
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - ./vite-project:/app/vite-project
+      - ./backend:/app/backend
+    networks:
+      - translator-net
+
+networks:
+  translator-net:
+
