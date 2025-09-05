@@ -94,6 +94,7 @@ python main_simple.py
 ## 📚 文档
 
 - [快速开始指南](QUICKSTART.md)
+- [快速开始指南-Docker](QUICKSTART-Docker.md)
 - [用户使用指南](USER_GUIDE.md)
 - [API切换指南](API_SWITCHING_GUIDE.md)
 - [DeepSeek配置指南](DEEPSEEK_GUIDE.md)
